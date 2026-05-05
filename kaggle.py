@@ -24,7 +24,7 @@ import joblib
 @st.cache_data
 def load_data() -> pd.DataFrame:
     """Load dan tampilkan dataset mushrooms.csv."""
-    url = "https://raw.githubusercontent.com/ali-rohmat/streamlit_AI/refs/heads/main/mushrooms.csv"
+    url = "https://raw.githubusercontent.com/ali-rohmat/streamlit_AI/refs/heads/main/kaggle.py"
     df = pd.read_csv(url)
     return df
 
@@ -43,7 +43,7 @@ def preprocess_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series, LabelEnc
 
 
 @st.cache_data
-def train_model(X: pd.DataFrame, y: pd.Series) -> Tuple[KNeighborsClassifier, float, int, pd.DataFrame]:
+def train_model(X: pd.DataFrame, y: pd.Series) -> Tuple[KNeighborsClassifier, float, int, pd.DataFrame, pd.Series, pd.Series]:
     """Train KNN dan cari K terbaik menggunakan elbow method."""
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
@@ -60,12 +60,10 @@ def train_model(X: pd.DataFrame, y: pd.Series) -> Tuple[KNeighborsClassifier, fl
     best_model.fit(X_train, y_train)
     accuracy = accuracy_score(y_test, best_model.predict(X_test))
     
-    cm = confusion_matrix(y_test, best_model.predict(X_test))
-    
     return best_model, accuracy, best_k, pd.DataFrame({
         'k': list(k_range),
         'test_accuracy': test_scores
-    })
+    }), y_test, best_model.predict(X_test)
 
 
 def plot_confusion_matrix(cm):
@@ -105,7 +103,7 @@ def main():
     # Preprocessing dan training
     with st.spinner("Preprocessing dan training model..."):
         X, y, le = preprocess_data(df)
-        model, accuracy, best_k, elbow_df = train_model(X, y)
+        model, accuracy, best_k, elbow_df, y_test, y_pred = train_model(X, y)
     
     # Metrics
     st.subheader("📊 Model Performance")
@@ -121,7 +119,7 @@ def main():
     st.plotly_chart(fig_elbow, use_container_width=True)
     
     # Confusion Matrix
-    cm = confusion_matrix(y[:100], model.predict(X[:100]))  # Sample untuk demo
+    cm = confusion_matrix(y_test, y_pred)
     st.plotly_chart(plot_confusion_matrix(cm), use_container_width=True)
     
     # Prediction interface
@@ -170,4 +168,3 @@ streamlit run kaggle.py
 
 if __name__ == "__main__":
     main()
-
