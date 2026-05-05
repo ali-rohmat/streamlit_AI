@@ -135,8 +135,10 @@ def main():
             f"{feature.replace('-', ' ').title()}", 
             min_value=min_val, max_value=max_val, 
             value=(min_val + max_val) // 2,
-            key=f"slider_{i}"
+            key=f"slider_{feature}"
         )
+    
+
     
     if st.button("🍄 Prediksi!", type="primary"):
         input_df = pd.DataFrame([input_data])
@@ -168,4 +170,3 @@ streamlit run kaggle.py
 
 if __name__ == "__main__":
     main()
-
