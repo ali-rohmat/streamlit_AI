@@ -131,14 +131,13 @@ def main():
     
     for i, feature in enumerate(features):
         min_val, max_val = int(X[feature].min()), int(X[feature].max())
-        input_data[feature] = st.slider(
+        input_data[feature] = st.number_input(
             f"{feature.replace('-', ' ').title()}", 
             min_value=min_val, 
             max_value=max_val, 
             value=min_val,
             step=1,
-            format="d",
-            key=f"slider_{feature}"
+            key=f"input_{feature}"
         )
 
     
