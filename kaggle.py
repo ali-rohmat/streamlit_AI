@@ -24,7 +24,7 @@ import joblib
 @st.cache_data
 def load_data() -> pd.DataFrame:
     """Load dan tampilkan dataset mushrooms.csv."""
-    url = "https://raw.githubusercontent.com/ali-rohmat/streamlit_AI/refs/heads/main/kaggle.py"
+    url = "https://raw.githubusercontent.com/ali-rohmat/streamlit_AI/refs/heads/main/mushrooms.csv"
     df = pd.read_csv(url)
     return df
 
