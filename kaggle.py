@@ -24,7 +24,8 @@ import joblib
 @st.cache_data
 def load_data() -> pd.DataFrame:
     """Load dan tampilkan dataset mushrooms.csv."""
-    df = pd.read_csv('mushrooms.csv')
+    url = "https://raw.githubusercontent.com/ali-rohmat/Artificial-Intelligent/refs/heads/main/Praktikum%202%20-%20Clustering%20(K-Means)/Mall_Customers.csv"
+    df = pd.read_csv(url)
     return df
 
 
