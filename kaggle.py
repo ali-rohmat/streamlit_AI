@@ -133,10 +133,14 @@ def main():
         min_val, max_val = int(X[feature].min()), int(X[feature].max())
         input_data[feature] = st.slider(
             f"{feature.replace('-', ' ').title()}", 
-            min_value=min_val, max_value=max_val, 
-            value=(min_val + max_val) // 2,
+            min_value=min_val, 
+            max_value=max_val, 
+            value=min_val,
+            step=1,
+            format="d",
             key=f"slider_{feature}"
         )
+
     
 
     
